@@ -33,3 +33,16 @@
     margin: 0px;
     color: #0f0f0f;
 }
+
+/* 50px for padding is to push down the body so that navbar
+* doesn't cover it, try 60px and you will see a gap between 
+* them */
+body {
+    padding: 50px 0px 0px 0px;
+    z-index: 0;
+}
+
+/* visit developer.android.col for colours */
+.navbar-inverse {
+    background-color: #512DA8;
+}
