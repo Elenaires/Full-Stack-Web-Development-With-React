@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 module.exports= function(grunt){
 
@@ -18,6 +18,7 @@ module.exports= function(grunt){
             },
             dist:{
                 files: {
+                    // need to add individual file
                     'css/styles.css':'css/styles.scss'
                 }
             }
@@ -89,18 +90,18 @@ module.exports= function(grunt){
                 dest: 'dist',
                 src: ['contactus.html', 'aboutus.html', 'index.html']
             },
-            option: {
+            options: {
                 flow: {
                     steps: {
                         css: ['cssmin'],
                         js: ['uglify']
                     },
-                    posts: {
+                    post: {
                         css: [{
                             name: 'cssmin',
                             createConfig: function(context, block){
                                 var generated = context.options.generated;
-                                generated.option = {
+                                generated.options = {
                                     keepSpecialComments: 0,
                                     rebase: false
                                 };
@@ -134,7 +135,7 @@ module.exports= function(grunt){
             },
             release: {
                 files: [{
-                    src: ['dist/css/*.css', 'dist/js/*.js']
+                    src: ['dist/js/*.js', 'dist/css/*.css']
                 }]
             }
         },
@@ -142,7 +143,7 @@ module.exports= function(grunt){
         usemin: {
             html: ['dist/contactus.html', 'dist/aboutus.html', 'dist/index.html'],
             options: {
-                assetsDir: ['dist', 'dist/css', 'dist/js']
+                assetsDirs: ['dist', 'dist/css', 'dist/js']
             }
         }
     });
@@ -163,4 +164,4 @@ module.exports= function(grunt){
         'filerev',
         'usemin'
     ]);
-}
+};
