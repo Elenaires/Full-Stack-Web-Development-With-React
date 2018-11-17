@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
 
-class Dishdetail extends Component {
+class DishDetail extends Component {
 
     constructor(props){
         super(props);
@@ -12,13 +12,13 @@ class Dishdetail extends Component {
     }
 
     renderComment(comments){
-        if(comments != null) {
+   
             const feedback = comments.map((commentBlock) => {
                 return (
                     <ul>
                         <li key={commentBlock.id}>
                             <p>{commentBlock.comment}</p>
-                            <p>-- {commentBlock.author}, {commentBlock.date}</p>
+                            <p>-- {commentBlock.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(commentBlock.date)))}</p>
                         </li>
                     </ul>
                 );
@@ -30,17 +30,11 @@ class Dishdetail extends Component {
                     {feedback}
                 </div>
             );
-        }
-        else    
-        {
-            return(
-                <div></div>
-            ); 
-        }
+        
     }
 
     renderDish(dish) {
-        if(dish != null) {
+      
             return (
                 <div key={dish.id} className="col-12 col-md-5 m-1">
                     <Card>
@@ -52,24 +46,29 @@ class Dishdetail extends Component {
                     </Card>
                 </div>  
             );
-        }
-        else{
-            return(
-                <div></div>
-            );
-        }     
+            
     }
 
     render() {
         var dish = this.props.dish;
-     
-        return (
-            <div className="row">  
-                {this.renderDish(dish)}
-                {dish == null ? (this.renderComment(null)) : (this.renderComment(dish.comments))}
-            </div>
-        );
+
+        if(dish != null) {
+            return (
+                <div class="container">
+                    <div className="row">  
+                        {this.renderDish(dish)}
+                        {this.renderComment(dish.comments)}
+                        {/*dish == null ? (this.renderComment(null)) : (this.renderComment(dish.comments))*/}
+                    </div>
+                </div>
+            );
+        }
+        else {
+            return (
+                <div></div>
+            );
+        }   
     }
 }
 
-export default Dishdetail;
+export default DishDetail;
