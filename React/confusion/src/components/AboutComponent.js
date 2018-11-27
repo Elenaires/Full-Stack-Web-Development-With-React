@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const RenderLeader = ({leader}) => {
     return (
         <Media tag="li">
-            <Media left middle>
+            <Media className="align-self-center">
                 <Media object src={leader.image} alt={leader.name} />
             </Media>    
             <Media body className="ml-5">
