@@ -1,4 +1,5 @@
 import React from 'react';
+import CommentForm from './CommentFormComponent';
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom'
 
@@ -18,6 +19,7 @@ import { Link } from 'react-router-dom'
                 <div className="col-md m-1">
                     <h4>Comments</h4>
                     {feedback}
+                    < CommentForm />
                 </div>
             );
     }
@@ -41,20 +43,20 @@ import { Link } from 'react-router-dom'
         if(props.dish != null) {
             return (
                 <div class="container">
-                <div className="row">
-                    <Breadcrumb>
-                        <BreadcrumbItem>
-                            <Link to='/menu'>manu</Link>
-                        </BreadcrumbItem>
-                        <BreadcrumbItem active>
-                            {props.dish.name}
-                        </BreadcrumbItem>
-                    </Breadcrumb>
-                    <div className="col-12">
-                        <h3>{props.dish.name}</h3>
-                        <hr />
-                     </div>
-                </div>
+                    <div className="row">
+                        <Breadcrumb>
+                            <BreadcrumbItem>
+                                <Link to='/menu'>menu</Link>
+                            </BreadcrumbItem>
+                            <BreadcrumbItem active>
+                                {props.dish.name}
+                            </BreadcrumbItem>
+                        </Breadcrumb>
+                        <div className="col-12">
+                            <h3>{props.dish.name}</h3>
+                            <hr />
+                        </div>
+                    </div>
                     <div className="row">  
                         <RenderDish dish={props.dish} />
                         <RenderComment comments={props.comments} />
