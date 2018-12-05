@@ -3,10 +3,10 @@ import CommentForm from './CommentFormComponent';
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom'
 
-    function RenderComment({comments}){
+    function RenderComment({comments, addComment, dishId}){
             const feedback = comments.map((commentBlock) => {
                 return (
-                    <ul>
+                    <ul className="list-unstyled">
                         <li key={commentBlock.id}>
                             <p>{commentBlock.comment}</p>
                             <p>-- {commentBlock.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(commentBlock.date)))}</p>
@@ -16,10 +16,10 @@ import { Link } from 'react-router-dom'
             });
 
             return (
-                <div className="col-md m-1">
+                <div className="col-12 col-md-5 m-1">
                     <h4>Comments</h4>
                     {feedback}
-                    < CommentForm />
+                    <CommentForm dishId={dishId} addComment={addComment} />
                 </div>
             );
     }
@@ -59,7 +59,9 @@ import { Link } from 'react-router-dom'
                     </div>
                     <div className="row">  
                         <RenderDish dish={props.dish} />
-                        <RenderComment comments={props.comments} />
+                        <RenderComment comments={props.comments}
+                            addComment={props.addComment}
+                            dishId={props.dish.id} />
                         {/*dish == null ? (this.renderComment(null)) : (this.renderComment(dish.comments))*/}
                     </div>
                 </div>

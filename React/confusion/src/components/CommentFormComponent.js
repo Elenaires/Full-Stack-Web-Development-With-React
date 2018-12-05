@@ -31,8 +31,9 @@ class CommentForm extends Component {
 
     handleComment(values){
         this.toggleModal();
-        console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
+        //console.log("Current State is: " + JSON.stringify(values));
+        //alert("Current State is: " + JSON.stringify(values));
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
 
@@ -63,9 +64,9 @@ class CommentForm extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="name" xs={12}>Your Name</Label>
+                                <Label htmlFor="author" xs={12}>Your Name</Label>
                                 <Col>
-                                    <Control.text model=".name" id="name" name="name"
+                                    <Control.text model=".author" id="author" name="author"
                                         placeholder="Your Name" 
                                         className="form-control"
                                         validators={{
