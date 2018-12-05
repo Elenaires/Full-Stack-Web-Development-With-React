@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Main from './components/MainComponent';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
+// import provider so that every other components have access to redux store
 import { Provider } from 'react-redux';
 import { ConfigureStore } from './redux/configureStore';
 

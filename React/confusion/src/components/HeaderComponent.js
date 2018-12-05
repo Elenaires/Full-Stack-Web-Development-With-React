@@ -91,6 +91,8 @@ class Header extends Component {
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
                     <ModalBody>
+                        {/*uncontrolled form - state of the form is not reflected as state of the component 
+                        (state of the form is retained in the dom itself) */}
                         <Form onSubmit={this.handleLogin}>
                             <FormGroup>
                                 <Label htmlFor="username">Username</Label>

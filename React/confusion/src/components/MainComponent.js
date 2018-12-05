@@ -6,9 +6,12 @@ import Contact from './ContactComponent';
 import DishDetail from './DishDetailComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
+// withRouter is required for react component to connect to redux if we are using react router
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+// connect react application to redux store
 import { connect } from 'react-redux';
 
+// maps the states from the redux store to main componenat props
 const mapStateToProps = state => {
     return {
         dishes: state.dishes,
@@ -23,6 +26,7 @@ class Main extends Component {
     constructor(props){
         super(props);
 
+        // states moved to reducer.js
         
     }
 
@@ -62,4 +66,5 @@ class Main extends Component {
     }
 }
 
+// connects main component to redux store (withRouter is needed because we use react router)
 export default withRouter(connect(mapStateToProps)(Main));

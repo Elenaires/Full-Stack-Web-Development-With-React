@@ -76,6 +76,8 @@ class Contact extends Component {
                         <h3>Send us Your Feedback</h3>
                     </div>
                     <div className="col-12 col-md-9">
+                        {/* LocalForm - supported by react-redux-form where data is not persist across component 
+                        as in data is stored in the local state of the component (not in redux store) */}
                         <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                             <Row className="form-group">
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
