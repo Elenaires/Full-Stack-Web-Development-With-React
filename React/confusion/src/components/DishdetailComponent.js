@@ -2,6 +2,7 @@ import React from 'react';
 import CommentForm from './CommentFormComponent';
 import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom'
+import { Loading } from './LoadingComponent'
 
     function RenderComment({comments, addComment, dishId}){
             const feedback = comments.map((commentBlock) => {
@@ -19,7 +20,7 @@ import { Link } from 'react-router-dom'
                 <div className="col-12 col-md-5 m-1">
                     <h4>Comments</h4>
                     {feedback}
-                    <CommentForm dishId={dishId} addComment={addComment} />
+                    < CommentForm dishId={dishId} addComment={addComment} />
                 </div>
             );
     }
@@ -39,8 +40,25 @@ import { Link } from 'react-router-dom'
     }
 
     const DishDetail = (props) => {
- 
-        if(props.dish != null) {
+        if(props.isLoading) {
+            return(
+                <div className="container">
+                    <div className="row">
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+        else if (props.errMess) {
+            return(
+                <div className="container">
+                    <div className="row">
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            ); 
+        }
+        else if(props.dish != null) {
             return (
                 <div class="container">
                     <div className="row">

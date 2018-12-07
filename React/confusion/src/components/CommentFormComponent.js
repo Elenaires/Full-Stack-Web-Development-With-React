@@ -29,6 +29,12 @@ class CommentForm extends Component {
         });
     }
 
+    // submission of a comment will trigger an action to be sent to the redux store
+    // and the action will result in the comment being addded to the comment state of the redux store
+    // which will result in the store admitting a change, and main component getting updated state from the redux store
+    // then main component passes new state to all the child components
+    // renderComment realises comments have changed
+    // react takes care of rendering comment with new comment addded
     handleComment(values){
         this.toggleModal();
         //console.log("Current State is: " + JSON.stringify(values));
