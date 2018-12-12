@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 
-    function RenderComment({comments, addComment, dishId}){
+    function RenderComment({comments, postComment, dishId}){
             const feedback = comments.map((commentBlock) => {
                 return (
                     <ul className="list-unstyled">
@@ -21,7 +21,7 @@ import { baseUrl } from '../shared/baseUrl';
                 <div className="col-12 col-md-5 m-1">
                     <h4>Comments</h4>
                     {feedback}
-                    < CommentForm dishId={dishId} addComment={addComment} />
+                    < CommentForm dishId={dishId} postComment={postComment} />
                 </div>
             );
     }
@@ -79,7 +79,7 @@ import { baseUrl } from '../shared/baseUrl';
                     <div className="row">  
                         <RenderDish dish={props.dish} />
                         <RenderComment comments={props.comments}
-                            addComment={props.addComment}
+                            postComment={props.postComment}
                             dishId={props.dish.id} />
                         {/*dish == null ? (this.renderComment(null)) : (this.renderComment(dish.comments))*/}
                     </div>

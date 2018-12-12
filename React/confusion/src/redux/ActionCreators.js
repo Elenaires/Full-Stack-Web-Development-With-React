@@ -3,18 +3,53 @@ import { DISHES } from '../shared/dishes';
 import { baseUrl } from '../shared/baseUrl';
 
 // a function that creates and return an action object
-export const addComment =  (dishId, rating, author, comment) => ({
-
+export const addComment =  (comment) => ({
     type: ActionTypes.ADD_COMMENT, 
+    payload: comment
+});
 
-    // javascript object that contains various parts of the comment
-    payload: {
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+
+    const newComment = {
         dishId: dishId,
         rating: rating,
         author: author,
         comment: comment
     }
-});
+
+    newComment.date = new Date().toISOString();
+
+    return fetch(baseUrl + 'comments', {
+        method: 'POST',
+        body: JSON.stringify(newComment),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+        })
+        .then(response => {
+            if(response.ok) {
+                return response;
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        },
+
+        // dont hear back from server at all
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => dispatch(addComment(response)))
+        .catch(error => { 
+            console.log('Post comments', error.message);
+            alert('Your comment could not be posted\nError: ' + error.message);
+        })
+}
 
 // a thunk (function that returns a function)
 export const fetchDishes = () => (dispatch) => {
