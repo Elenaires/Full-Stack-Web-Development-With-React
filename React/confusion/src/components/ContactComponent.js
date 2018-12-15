@@ -14,18 +14,18 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
+
 class Contact extends Component {
 
     constructor(props) {
         super(props);
-
         this.handleSubmit = this.handleSubmit.bind(this);
-        
     }
 
     handleSubmit(values) {
-        console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
+        //console.log("Current State is: " + JSON.stringify(values));
+        //alert("Current State is: " + JSON.stringify(values));
+        this.props.postFeedback(values);
         this.props.resetFeedbackForm();
     }
 
@@ -78,7 +78,7 @@ class Contact extends Component {
                     </div>
                     <div className="col-12 col-md-9">
                         {/* LocalForm - supported by react-redux-form where data is not persist across component 
-                        as in data is stored in the local state of the component (not in redux store) */}
+                        as in data is d in the local state of the component (not in redux store) */}
                         <Form model="feedback" onSubmit={(values) => this.handleSubmit(values)}>
                             <Row className="form-group">
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
@@ -204,6 +204,7 @@ class Contact extends Component {
                                 </Col>
                             </Row>
                         </Form>
+                        
                     </div>
                 </div>
                 

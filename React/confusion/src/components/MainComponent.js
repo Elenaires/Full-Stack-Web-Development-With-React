@@ -10,7 +10,7 @@ import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 // connect react application to redux store
 import { connect } from 'react-redux';
-import { postComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
+import { postComment, postFeedback, fetchDishes, fetchComments, fetchPromos, fetchLeaders, fetchFeedbacks } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -21,27 +21,25 @@ const mapStateToProps = state => {
         dishes: state.dishes,
         comments: state.comments,
         promotions: state.promotions,
-        leaders: state.leaders
+        leaders: state.leaders,
     }
 }
 
 // addComment is a function - used as attribute for dishdetail component
 // to dispatch action to the redux store
-const mapDispathToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
     postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
+    postFeedback: (firstName, lastName, telNum, email, agree, contactType, message) => dispatch(postFeedback(firstName, lastName, telNum, email, agree, contactType, message)),
     fetchDishes: () => {dispatch(fetchDishes())},
     resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
     fetchComments: () => {dispatch(fetchComments())},
     fetchPromos: () => {dispatch(fetchPromos())},
-    fetchLeaders: () => {dispatch(fetchLeaders())}
+    fetchLeaders: () => {dispatch(fetchLeaders())},
 });
 
 class Main extends Component {
     constructor(props){
         super(props);
-
-        // states moved to reducer.js
-        
     }
 
     // lifecycle method - will be called right after main gets mounted into the view
@@ -54,7 +52,6 @@ class Main extends Component {
     }
 
     render() {
-
         const HomePage = () => {
             return(
                 <Home dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
@@ -91,7 +88,10 @@ class Main extends Component {
                             <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
                             <Route path="/menu/:dishId" component={DishWithId} />
                             <Route exact path="/aboutus" component={() => <About leaders={this.props.leaders}/>} />
-                            <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
+                            <Route exact path='/contactus' component={() => <Contact 
+                                resetFeedbackForm={this.props.resetFeedbackForm} 
+                                postFeedback={this.props.postFeedback}
+                                 />} />
                             <Redirect to="/home" />
                         </Switch>
                     </CSSTransition>
@@ -103,4 +103,4 @@ class Main extends Component {
 }
 
 // connects main component to redux store (withRouter is needed because we use react router)
-export default withRouter(connect(mapStateToProps, mapDispathToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

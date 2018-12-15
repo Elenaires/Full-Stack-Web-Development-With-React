@@ -2,6 +2,48 @@ import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
 // a function that creates and return an action object
+export const addFeedback = (feedback) => ({
+    type: ActionTypes.ADD_FEEDBACK,
+    payload: feedback
+});
+
+export const postFeedback = (feedback) => (dispatch) => {
+     
+    return fetch(baseUrl + 'feedback', {
+        method: 'POST',
+        body: JSON.stringify(feedback),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+    .then(
+        response => {
+            if(response.ok) {
+                return response;
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        },
+        error => {
+            var errMess = new Error(error.message);
+            throw errMess;
+        })
+    .then(response => response.json())
+    .then(function(response) {
+        alert('Thank you for your feedback! '+ JSON.stringify(response));
+    })
+    .then(response => dispatch(addFeedback(response)))
+    .catch(error => { 
+        console.log('Post Feedback', error.message);
+        alert('Your Feedback could not be submitted\nError: ' + error.message);
+    })
+}
+
+
 export const addComment =  (comment) => ({
     type: ActionTypes.ADD_COMMENT, 
     payload: comment
@@ -49,6 +91,39 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
             alert('Your comment could not be posted\nError: ' + error.message);
         })
 }
+
+export const fetchFeedbacks = () => (dispatch) => {
+    return fetch(baseUrl + 'feedback')
+        .then(response => {
+            if(response.ok) {
+                return response;
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        },
+
+        // dont hear back from server at all
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(feedbacks => dispatch(addFeedbacks(feedbacks)))
+        .catch(error => dispatch(feedbacksFailed(error.message)));
+    }
+
+export const feedbacksFailed = (errmess) => ({
+    type: ActionTypes.FEEDBACKS_FAILED,
+    payload: errmess
+});
+
+export const addFeedbacks = (feedbacks) => ({
+    type: ActionTypes.ADD_FEEDBACKS,
+    payload: feedbacks
+});
 
 // a thunk (function that returns a function)
 export const fetchDishes = () => (dispatch) => {
