@@ -33,9 +33,8 @@ export const postFeedback = (feedback) => (dispatch) => {
             throw errMess;
         })
     .then(response => response.json())
-    .then(function(response) {
-        alert('Thank you for your feedback! '+ JSON.stringify(response));
-    })
+    .then(response => 
+        alert('Thank you for your feedback! '+ JSON.stringify(response)))
     .then(response => dispatch(addFeedback(response)))
     .catch(error => { 
         console.log('Post Feedback', error.message);
