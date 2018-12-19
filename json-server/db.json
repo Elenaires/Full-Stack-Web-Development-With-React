@@ -2,38 +2,38 @@
   "dishes": [
     {
       "id": 0,
-      "name": "Uthappizza",
-      "image": "images/uthappizza.png",
+      "name": "Schweinshax'n",
+      "image": "images/pork.JPG",
       "category": "mains",
       "label": "Hot",
       "price": "4.99",
       "featured": true,
-      "description": "A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer."
+      "description": "These farm fresh pork hocks are prepared daily in the old Bavarian style. Lightly seasoned and slow roasted in our window rotisserie. This delicacy features crispy flavorful skin and tender juicy meat."
     },
     {
       "id": 1,
-      "name": "Zucchipakoda",
-      "image": "images/zucchipakoda.png",
+      "name": "Biang Biang Noodle",
+      "image": "images/chinese.JPG",
       "category": "appetizer",
       "label": "",
       "price": "1.99",
       "featured": false,
-      "description": "Deep fried Zucchini coated with mildly spiced Chickpea flour batter accompanied with a sweet-tangy tamarind sauce"
+      "description": "A delicious spicy noodle dish, freshly made in store by Chef Hunk. The word 'biang' is an onomatopoeia - it mimics of the sound made in the process of making the noodles, when the dough is pulled and slapped against the working surface"
     },
     {
       "id": 2,
-      "name": "Vadonut",
-      "image": "images/vadonut.png",
+      "name": "Prawn Pasta",
+      "image": "images/noodle.JPG",
       "category": "appetizer",
       "label": "New",
       "price": "1.99",
       "featured": false,
-      "description": "A quintessential ConFusion experience, is it a vada or is it a donut?"
+      "description": "This prawn pasta recipe is one of Chef Hunk's favourite flavour combination; spaphetti with prawns, tomato and red wine!"
     },
     {
       "id": 3,
       "name": "ElaiCheese Cake",
-      "image": "images/elaicheesecake.png",
+      "image": "images/cake.JPG",
       "category": "dessert",
       "label": "",
       "price": "2.99",
@@ -201,13 +201,65 @@
       "comment": "It's your birthday, we're gonna party!",
       "author": "25 Cent",
       "date": "2011-12-02T17:57:28.556094Z"
+    },
+    {
+      "dishId": 3,
+      "rating": "4",
+      "author": "Elena",
+      "comment": "Great",
+      "date": "2018-12-12T02:33:14.846Z",
+      "id": 20
+    },
+    {
+      "dishId": 3,
+      "rating": "4",
+      "author": "Huey",
+      "comment": "Nice",
+      "date": "2018-12-14T05:48:14.092Z",
+      "id": 21
+    },
+    {
+      "dishId": 3,
+      "author": "Dog",
+      "comment": "bad",
+      "date": "2018-12-14T05:51:00.005Z",
+      "id": 22
+    },
+    {
+      "dishId": 1,
+      "rating": "5",
+      "author": "Super man",
+      "comment": "Great!!!",
+      "date": "2018-12-15T03:39:39.297Z",
+      "id": 23
+    },
+    {
+      "dishId": 1,
+      "author": "Elena",
+      "comment": "No Good",
+      "date": "2018-12-15T03:40:29.828Z",
+      "id": 24
+    },
+    {
+      "dishId": 3,
+      "author": "Selena",
+      "comment": "no good",
+      "date": "2018-12-15T05:37:28.827Z",
+      "id": 25
+    },
+    {
+      "dishId": 2,
+      "author": "Not Serious",
+      "comment": "Tasteless",
+      "date": "2018-12-15T06:16:19.067Z",
+      "id": 26
     }
   ],
   "promotions": [
     {
       "id": 0,
       "name": "Weekend Grand Buffet",
-      "image": "images/buffet.png",
+      "image": "images/turkey.jpg",
       "label": "New",
       "price": "19.99",
       "featured": true,
@@ -217,8 +269,8 @@
   "leaders": [
     {
       "id": 0,
-      "name": "Peter Pan",
-      "image": "images/alberto.png",
+      "name": "Takashi Shirogane",
+      "image": "images/Shiro.png",
       "designation": "Chief Epicurious Officer",
       "abbr": "CEO",
       "featured": false,
@@ -226,8 +278,8 @@
     },
     {
       "id": 1,
-      "name": "Dhanasekaran Witherspoon",
-      "image": "images/alberto.png",
+      "name": "Princess Allura",
+      "image": "images/Allura.png",
       "designation": "Chief Food Officer",
       "abbr": "CFO",
       "featured": false,
@@ -235,8 +287,8 @@
     },
     {
       "id": 2,
-      "name": "Agumbe Tang",
-      "image": "images/alberto.png",
+      "name": "Pidge Holt",
+      "image": "images/Pidge.png",
       "designation": "Chief Taste Officer",
       "abbr": "CTO",
       "featured": false,
@@ -244,8 +296,8 @@
     },
     {
       "id": 3,
-      "name": "Alberto Somayya",
-      "image": "images/alberto.png",
+      "name": "Hunk The Big One",
+      "image": "images/Hunk2.png",
       "designation": "Executive Chef",
       "abbr": "EC",
       "featured": true,
@@ -263,6 +315,16 @@
       "message": "afadsfds",
       "date": "2017-12-04T09:41:49.890Z",
       "id": 1
+    },
+    {
+      "firstname": "Selina",
+      "lastname": "Dail",
+      "telnum": "1234",
+      "email": "ial@gmail.com",
+      "agree": false,
+      "contactType": "Tel.",
+      "message": "Great",
+      "id": 2
     }
   ]
 }
