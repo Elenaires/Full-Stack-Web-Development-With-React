@@ -36,7 +36,8 @@ function About(props) {
     }
     else if (props.leaders.errMess) {
         return(
-            <h4>{this.props.leaders.errMess}</h4>
+            // *** this.props to props
+            <h4>{props.leaders.errMess}</h4>
         ); 
     }
     else {

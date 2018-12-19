@@ -253,6 +253,22 @@
       "comment": "Tasteless",
       "date": "2018-12-15T06:16:19.067Z",
       "id": 26
+    },
+    {
+      "dishId": 3,
+      "rating": "5",
+      "author": "Peter Pan",
+      "comment": "Superb!!!",
+      "date": "2018-12-19T07:07:40.178Z",
+      "id": 27
+    },
+    {
+      "dishId": 3,
+      "rating": "3",
+      "author": "Yong",
+      "comment": "Its okay",
+      "date": "2018-12-19T07:14:34.682Z",
+      "id": 28
     }
   ],
   "promotions": [
@@ -325,6 +341,26 @@
       "contactType": "Tel.",
       "message": "Great",
       "id": 2
+    },
+    {
+      "firstname": "Blair",
+      "lastname": "Gilbert",
+      "telnum": "657890123",
+      "email": "gilbert@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "Great experience",
+      "id": 3
+    },
+    {
+      "firstname": "Yong",
+      "lastname": "Sui",
+      "telnum": "8888",
+      "email": "yung@gmail.com",
+      "agree": true,
+      "contactType": "Tel.",
+      "message": "It's okay",
+      "id": 4
     }
   ]
 }

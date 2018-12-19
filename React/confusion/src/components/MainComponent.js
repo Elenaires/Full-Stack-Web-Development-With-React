@@ -10,7 +10,7 @@ import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 // connect react application to redux store
 import { connect } from 'react-redux';
-import { postComment, postFeedback, fetchDishes, fetchComments, fetchPromos, fetchLeaders, fetchFeedbacks } from '../redux/ActionCreators';
+import { postComment, postFeedback, fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -38,9 +38,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class Main extends Component {
-    constructor(props){
-        super(props);
-    }
 
     // lifecycle method - will be called right after main gets mounted into the view
     // fetchDishes will be called to fetch the dishes and loaded into redux store

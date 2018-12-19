@@ -14,7 +14,6 @@ export const Feedbacks = (state = {
             return {...state, isLoading: false, errMess: action.payload, feedbacks: []};
 
         case ActionTypes.ADD_FEEDBACKS:
-            var feedback = action.payload;
             return {...state, isLoading: false, errMess: null, feedbacks: action.payload};
 
         default: 
