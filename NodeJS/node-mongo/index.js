@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const dboper = require('./operations.js');
 
 const url = 'mongodb://localhost:27017/';
 const dbname = 'conFusion';
@@ -12,32 +13,25 @@ MongoClient.connect(url, (err, client) => {
     console.log('connected correctly to server');
 
     const db = client.db(dbname);
-    const collection = db.collection('dishes');
 
-    // insert one document into the collection
-    collection.insertOne({"name": "Uthapizza", "discription": "test"}, (err, result) => {
-        assert.equal(err, null);
+    dboper.insertDocument(db, { name: "Vadonut", description: "Donut"}, 'dishes', (result) => {
+        console.log('Insert Document:\n', result.ops);
 
-        console.log('After Insert:\n');
+        dboper.findDocuments(db, 'dishes', (docs) => {
+            console.log('Found Documents:\n', docs);
 
-        // show how many operations have been carried out
-        // successfully
-        console.log(result.ops);
+            dboper.updateDocument(db, {name: 'Vadonut'}, {description: 'Updated Donut'}, 'dishes', (result) => {
+                console.log('Updated Document:\n' + result.result);
+                
+                dboper.findDocuments(db, 'dishes', (docs) => {
+                    console.log('Found Documents:\n', docs);
 
-        collection.find({}).toArray((err, docs) => {
-            assert.equal(err, null);
+                    db.dropCollection('dishes', (result) => {
+                        console.log('Dropped Collection: ', result);
 
-            console.log('Found:\n');
-            // return all docs from this collection that 
-            // match the criteria (in this case empty, so all to be returned)
-            console.log(docs);
-
-            // just to clean up database for exercise
-            db.dropCollection('dishes', (err, result) =>{
-                assert.equal(err, null);
-
-                // close connection to database
-                client.close();
+                        client.close();
+                    });
+                });
             });
         });
     });
