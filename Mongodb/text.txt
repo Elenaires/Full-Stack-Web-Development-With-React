@@ -1,0 +1,15 @@
+(inside of mongodb folder) mongod --dbpath=data --bind_ip 127.0.0.1 (ctrl c to exit)
+(another terminal) mongo (quit() to exit)
+
+use conFusion (create a new database called conFusion and switch to it)
+
+db.dishes.insert({"name":"Uthappizza","description":"Indian Pizza"}); (create a collection called dishes and insert the data)
+
+db.dishes.find().pretty() (to display data)
+
+> var id = new ObjectId();
+> id.getTimestamp(); (to display ISODate)
+
+
+
+
