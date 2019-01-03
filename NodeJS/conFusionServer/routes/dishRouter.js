@@ -1,4 +1,4 @@
-/* this file will contain the implementing of handing of REST api
+/* this file will contain the implementation of handling of REST api
 * endpoint for /dishes and /dishes:dishId 
 */
 
