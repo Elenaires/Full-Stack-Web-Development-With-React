@@ -34,6 +34,45 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+function auth(req,res,next) {
+  console.log(req.headers);
+
+  var authHeader = req.headers.authorization;
+
+  // if client has not supplied auth header, asked for it
+  if(!authHeader) {
+    var err = new Error('You are not authenticated');
+
+    res.setHeader('WWW-Authenticate', 'Basic');
+    err.status = 401;
+    return next(err);
+  }
+
+  // if auth header provided, extract username and password
+  var auth = new Buffer(authHeader.split(' ')[1], 'base64').toString().split(':');
+
+  var username = auth[0];
+  var password = auth[1];
+
+  // default username and password for now
+  if(username === 'admin' && password === 'password') {
+    // go on to next middleware
+    next();
+  }
+  else { // challenge client
+    var err = new Error('You are not authenticated');
+
+    res.setHeader('WWW-Authenticate', 'Basic');
+    err.status = 401;
+    return next(err);
+  }
+}
+
+// authentication before fetching from server
+app.use(auth);
+
+// serve static data from public server
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
