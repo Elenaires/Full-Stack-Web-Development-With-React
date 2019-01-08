@@ -33,39 +33,62 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+
+// signed cookies - need to supply secret key 
+app.use(cookieParser('12345-67890-09876-54321'));
 
 function auth(req,res,next) {
-  console.log(req.headers);
+  console.log(req.signedCookies);
 
-  var authHeader = req.headers.authorization;
+  // if the incoming request does not include
+  // the user field in the signed cookie
+  // means user has not been authorized yet
+  if(!req.signedCookies.user){
+    var authHeader = req.headers.authorization;
 
-  // if client has not supplied auth header, asked for it
-  if(!authHeader) {
-    var err = new Error('You are not authenticated');
-
-    res.setHeader('WWW-Authenticate', 'Basic');
-    err.status = 401;
-    return next(err);
+    // if client has not supplied auth header, asked for it
+    if(!authHeader) {
+      var err = new Error('You are not authenticated');
+  
+      res.setHeader('WWW-Authenticate', 'Basic');
+      err.status = 401;
+      return next(err);
+    }
+  
+    // if auth header provided, extract username and password
+    var auth = new Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
+  
+    var username = auth[0];
+    var password = auth[1];
+  
+    // default username and password for now
+    if(username === 'admin' && password === 'password') {
+      // set up cookie
+      res.cookie('user', 'admin', { signed: true })
+      // go on to next middleware
+      next();
+    }
+    else { // challenge client
+      var err = new Error('You are not authenticated');
+  
+      res.setHeader('WWW-Authenticate', 'Basic');
+      err.status = 401;
+      return next(err);
+    }
   }
 
-  // if auth header provided, extract username and password
-  var auth = new Buffer(authHeader.split(' ')[1], 'base64').toString().split(':');
+  // user field included
+  else {
+    if(req.signedCookies.user === 'admin') {
+      next();
+    }
 
-  var username = auth[0];
-  var password = auth[1];
-
-  // default username and password for now
-  if(username === 'admin' && password === 'password') {
-    // go on to next middleware
-    next();
-  }
-  else { // challenge client
-    var err = new Error('You are not authenticated');
-
-    res.setHeader('WWW-Authenticate', 'Basic');
-    err.status = 401;
-    return next(err);
+    //invalid cookie
+    else {
+      var err = new Error('You are not authenticated');
+      err.status = 401;
+      return next(err);
+    }
   }
 }
 
