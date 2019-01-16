@@ -7,6 +7,8 @@ var session = require('express-session');
 
 // to keep track of sessions
 var FileStore = require('session-file-store')(session);
+var passport = require('passport');
+var authenticate = require('./authenticate');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -49,33 +51,23 @@ app.use(session({
   store: new FileStore()
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // must appear before authentication
 // user can visit these endpoints without logging in
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 function auth(req,res,next) {
-  //console.log(req.signedCookies);
-  console.log(req.session);
 
-  if(!req.session.user) {
+  if(!req.user) {
     var err = new Error('You are not authenticated!');
     err.status = 401;
     return next(err);
   }
-  // user field included
   else {
-    //if(req.signedCookies.user === 'admin') {
-      if(req.session.user === 'authenticated'){
-      next();
-    }
-
-    //invalid cookie
-    else {
-      var err = new Error('You are not authenticated');
-      err.status = 403;
-      return next(err);
-    }
+      return next();
   }
 }
 
