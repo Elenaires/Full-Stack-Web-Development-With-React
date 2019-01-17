@@ -2,6 +2,7 @@ var express = require('express');
 const bodyParser = require('body-parser');
 var User = require('../models/user');
 var passport = require('passport');
+var authenticate = require('../authenticate');
 
 var router = express.Router();
 router.use(bodyParser.json());
@@ -35,10 +36,12 @@ router.post('/signup', function(req, res, next){
 // otherwise it will return err msg to user
 // all taken care by passport
 router.post('/login', passport.authenticate('local'), (req, res) => {
+  
+  // create token
+  var token = authenticate.getToken({_id: req.user._id});
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
-  res.json({success: true, status: 'You are successfully logged in!'});
-      
+  res.json({success: true, token: token, status: 'You are successfully logged in!'});
 });
 
 // logging user out - using GET as we are not submitting
