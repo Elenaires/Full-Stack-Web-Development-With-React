@@ -20,27 +20,33 @@ leaderRouter.route('/')
     .catch((err) => next(err));
 })
 .post(authenticate.verifyUser, (req,res,next) => {
-    Leaders.create(req.body)
-    .then((leader) => {
-        console.log("Leader Created ", dish);
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(leader);
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    authenticate.verifyAdmin(req,res,next);
+    }, (req, res, next) => { 
+        Leaders.create(req.body)
+        .then((leader) => {
+            console.log("Leader Created ", dish);
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(leader);
+        }, (err) => next(err))
+        .catch((err) => next(err));
 })
 .put(authenticate.verifyUser, (req,res,next) => {
-    res.statusCode = 403;
-    res.end('PUT operation not supported on /leaders/');
+    authenticate.verifyAdmin(req,res,next);
+    }, (req, res, next) => { 
+        res.statusCode = 403;
+        res.end('PUT operation not supported on /leaders/');
 })
 .delete(authenticate.verifyUser, (req, res, next) => {
-    Leaders.remove({})
-    .then((resp) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    authenticate.verifyAdmin(req,res,next);
+    }, (req, res, next) => { 
+        Leaders.remove({})
+        .then((resp) => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(resp);
+        }, (err) => next(err))
+        .catch((err) => next(err));
 });
 
 
@@ -55,30 +61,36 @@ leaderRouter.route('/:leaderId')
     .catch((err) => next(err));
 })
 .post(authenticate.verifyUser, (req,res,next) => {
-    res.statusCode = 403;
-    res.end('POST operation not supported on /leaders/'
-    + req.params.leaderId);
+    authenticate.verifyAdmin(req,res,next);
+    }, (req, res, next) => { 
+        res.statusCode = 403;
+        res.end('POST operation not supported on /leaders/'
+        + req.params.leaderId);
 })
 .put(authenticate.verifyUser, (req,res,next) => {
-    Leaders.findByIdAndUpdate(req.params.leaderId, {
-        $set: req.body
-        // will return the updated dish as json string in the reply
-    }, { new: true })
-    .then((leader) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(leader);
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    authenticate.verifyAdmin(req,res,next);
+    }, (req, res, next) => { 
+        Leaders.findByIdAndUpdate(req.params.leaderId, {
+            $set: req.body
+            // will return the updated dish as json string in the reply
+        }, { new: true })
+        .then((leader) => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(leader);
+        }, (err) => next(err))
+        .catch((err) => next(err));
 })
 .delete(authenticate.verifyUser, (req, res, next) => {
-    Leaders.findByIdAndRemove(req.params.leaderId)
-    .then((resp) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    authenticate.verifyAdmin(req,res,next);
+    }, (req, res, next) => { 
+        Leaders.findByIdAndRemove(req.params.leaderId)
+        .then((resp) => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(resp);
+        }, (err) => next(err))
+        .catch((err) => next(err));
 });
 
 module.exports = leaderRouter;

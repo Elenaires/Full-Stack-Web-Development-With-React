@@ -46,8 +46,20 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
         });
     }));
 
-    // verify user using token
-    exports.verifyUser = passport.authenticate('jwt', {session: false});
+// verify user using token
+exports.verifyUser = passport.authenticate('jwt', {session: false});
+
+// verify that user is admin
+exports.verifyAdmin = (req, res, next) => {
+    if(!req.user.admin) {
+        err = new Error('You do not have the right to perform this action');
+        err.status = 403;
+        return next(err); 
+    }
+    else {
+        next();
+    }
+}
 
 
 
