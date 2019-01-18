@@ -55,10 +55,6 @@ dishRouter.route('/')
 })
 // since put operation on /dishes doesn't make sense??
 // maybe it means not possible to edit all dishes at once?
-/*.put(authenticate.verifyUser, (req,res,next) => {
-    res.statusCode = 403;
-    res.end('PUT operation not supported on /dishes');
-})*/
 .put(authenticate.verifyUser, (req,res,next) => {
     authenticate.verifyAdmin(req,res,next);
     }, (req, res, next) => { 
