@@ -23,11 +23,14 @@ app.use(bodyParser.json());
 // handled by dishRouter
 app.use('/dishes', dishRouter);
 app.use('/promotions', promoRouter);
-app.use('/leaders', leaderRouter);
+app.use('/leaders', leaderRouter);webkitConvertPointFromPageToNode
 
 // __dirname means root folder
+// request to localhost:3000 will return index.html by default
 app.use(express.static(__dirname + '/public'));
 
+// request to files that does not exists will go here
+// since we did not write code to handle that
 // next is an optional parameter - invoke additional middleware
 app.use((req, res, next) => {
     res.statusCode = 200;
