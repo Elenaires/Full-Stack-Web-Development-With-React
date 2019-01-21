@@ -33,6 +33,21 @@ connect.then((db)=> {
 
 var app = express();
 
+app.all('*', (req, res, next) => {
+  if(req.secure) {
+    return next();
+  }
+  // redirect incoming request if it's not already directing to https
+  else {
+    // written status code 307 - target resource resides temporarily in a different uri
+    // user agent must not change the request method if it performs 
+    // an automatic redirection to the uri
+    // user agent is expected to retry with the same method they have used
+    // for the original end point
+    res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
+  }
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
