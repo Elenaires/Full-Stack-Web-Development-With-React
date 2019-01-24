@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 var User = require('../models/user');
 var passport = require('passport');
 var authenticate = require('../authenticate');
-
+var cors = require('./cors');
 var router = express.Router();
 router.use(bodyParser.json());
 
@@ -13,7 +13,7 @@ router.use(bodyParser.json());
 });*/
 
 /* GET users listing. */
-router.get('/', authenticate.verifyUser, (req, res, next) => {
+router.get('/', cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
   authenticate.verifyAdmin(req,res,next);
   }, (req, res, next) => { 
     User.find({})
@@ -25,7 +25,7 @@ router.get('/', authenticate.verifyUser, (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.post('/signup', function(req, res, next){
+router.post('/signup', cors.corsWithOptions, function(req, res, next){
   User.register(new User({username: req.body.username}),
   req.body.password, (err, user) => {
     if(err) {
@@ -62,7 +62,7 @@ router.post('/signup', function(req, res, next){
 // the next function will be called
 // otherwise it will return err msg to user
 // all taken care by passport
-router.post('/login', passport.authenticate('local'), (req, res) => {
+router.post('/login', cors.corsWithOptions, passport.authenticate('local'), (req, res) => {
   
   // create token
   var token = authenticate.getToken({_id: req.user._id});
