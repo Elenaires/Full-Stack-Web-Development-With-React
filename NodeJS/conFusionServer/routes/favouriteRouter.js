@@ -63,6 +63,7 @@ favouriteRouter.route('/')
                 // assumes that if it's the first time user is
                 // creating a favourite list
                 // the items he adds to the list must be unique
+                // OR create a new favourite along with {dishes: req.body}
                 favourite.dishes.push(...req.body);
             }, (err) => next(err))
             favourite.save()
@@ -80,7 +81,7 @@ favouriteRouter.route('/')
     res.end('PUT operation not supported on /favourite');
 })
 .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-    Favourites.findOne({user:req.user._id}) 
+    Favourites.findOne({user:req.user._id}) // OR findOneAndRemove
     .then((favourite) => {
         if(favourite !== null) {
             favourite.remove()
