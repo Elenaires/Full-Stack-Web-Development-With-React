@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const Favourites = require('../models/favourite');
 const favouriteRouter = express.Router();
 const cors = require('./cors');
@@ -28,7 +27,6 @@ favouriteRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-
 // post multiple favourite dishes at once
 .post(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) => {
     Favourites.findOne({ user:req.user._id })
@@ -51,6 +49,12 @@ favouriteRouter.route('/')
                     favourite.dishes.push(req.body);
                 }
             }
+            favourite.save()
+            .then((favourite) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(favourite);
+            }, (err) => next(err))
         }
         // if user does not have a favourite list
         else {
@@ -61,13 +65,13 @@ favouriteRouter.route('/')
                 // the items he adds to the list must be unique
                 favourite.dishes.push(...req.body);
             }, (err) => next(err))
+            favourite.save()
+            .then((favourite) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(favourite);
+            }, (err) => next(err))
         }
-        favourite.save()
-        .then((favourite) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(favourite);
-        }, (err) => next(err))
     }, (err) => next(err))
     .catch((err) => next(err));
 })
@@ -75,8 +79,32 @@ favouriteRouter.route('/')
     res.statusCode = 403;
     res.end('PUT operation not supported on /favourite');
 })
+.delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    Favourites.findOne({user:req.user._id}) 
+    .then((favourite) => {
+        if(favourite !== null) {
+            favourite.remove()
+            .then((resp) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(resp);
+            }, (err) => next(err))
+        }
+        else {
+            err = new Error('No favourites found');
+            err.status = 404;
+            return next(err); //app.js will handle error
+        }
+    }, (err) => next(err))
+    .catch((err) => next(err));
+});
 
 favouriteRouter.route('/:dishId')
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200);})
+.get(cors.cors, authenticate.verifyUser, (req, res, next) => {
+    res.statusCode = 403;
+    res.end('GET operation not supported on /favourite/');
+})
 // post single dish to favourite
 .post(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) => {
     Favourites.findOne({ user:req.user._id })
@@ -117,63 +145,37 @@ favouriteRouter.route('/:dishId')
 .put(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /favourite/');
-});
-/*
-.delete(authenticate.verifyUser, (req, res, next) => {
-    authenticate.verifyAdmin(req,res,next);
-    }, (req, res, next) => { 
-        Leaders.remove({})
-        .then((resp) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(resp);
-        }, (err) => next(err))
-        .catch((err) => next(err));
-});*/
-
-
-/*leaderRouter.route('/:leaderId')
-.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200);})
-.get(cors.cors, (req, res, next) => {
-    Leaders.findById(req.params.leaderId)
-    .then((leader) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(leader);
-    }, (err) => next(err))
-    .catch((err) => next(err));
-})
-.post(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) => {
-    authenticate.verifyAdmin(req,res,next);
-    }, (req, res, next) => { 
-        res.statusCode = 403;
-        res.end('POST operation not supported on /leaders/'
-        + req.params.leaderId);
-})
-.put(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) => {
-    authenticate.verifyAdmin(req,res,next);
-    }, (req, res, next) => { 
-        Leaders.findByIdAndUpdate(req.params.leaderId, {
-            $set: req.body
-            // will return the updated dish as json string in the reply
-        }, { new: true })
-        .then((leader) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(leader);
-        }, (err) => next(err))
-        .catch((err) => next(err));
 })
 .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-    authenticate.verifyAdmin(req,res,next);
-    }, (req, res, next) => { 
-        Leaders.findByIdAndRemove(req.params.leaderId)
-        .then((resp) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(resp);
-        }, (err) => next(err))
-        .catch((err) => next(err));
-});*/
+    Favourites.findOne({user:req.user._id}) 
+    .then((favourite) => {
+        if(favourite !== null) {
+            var dishIndex = favourite.dishes.indexOf(req.params.dishId);
+            if(dishIndex !== -1) {
+                //favourite.dishes.splice(dishIndex, 1); -> works
+                //favourite.dishes[dishIndex].remove(); -> doesnt work
+                //favourite.dishes.remove(mongoose.Types.ObjectId(req.params.dishId)); -> works
+                favourite.dishes.remove(req.params.dishId);
+                favourite.save()
+                .then((favourite) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(favourite);
+                }, (err) => next(err))
+            }
+            else {
+                err = new Error('Dish ' + req.params.dishId + ' is not in your favourite');
+                err.status = 404;
+                return next(err); //app.js will handle error
+            }
+        }
+        else {
+            err = new Error('You do not have a favourite list');
+            err.status = 404;
+            return next(err);
+        }
+    }, (err) => next(err))
+    .catch((err) => next(err));
+});
 
 module.exports = favouriteRouter;
