@@ -17,7 +17,14 @@ const commentSchema = new Schema({
         // from 'User'
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    dish : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Dish'
     }
 }, {
     timestamps:true
 });
+
+var Comments = mongoose.model('Comment', commentSchema);
+module.exports = Comments;
