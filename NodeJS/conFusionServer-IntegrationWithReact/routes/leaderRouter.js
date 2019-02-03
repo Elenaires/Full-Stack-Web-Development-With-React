@@ -26,7 +26,7 @@ leaderRouter.route('/')
     }, (req, res, next) => { 
         Leaders.create(req.body)
         .then((leader) => {
-            console.log("Leader Created ", dish);
+            console.log("Leader Created ", leader);
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
             res.json(leader);
@@ -75,7 +75,6 @@ leaderRouter.route('/:leaderId')
     }, (req, res, next) => { 
         Leaders.findByIdAndUpdate(req.params.leaderId, {
             $set: req.body
-            // will return the updated dish as json string in the reply
         }, { new: true })
         .then((leader) => {
             res.statusCode = 200;

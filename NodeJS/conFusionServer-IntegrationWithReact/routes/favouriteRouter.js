@@ -63,15 +63,16 @@ favouriteRouter.route('/')
         }
         // if user does not have a favourite list
         else {
-            Favourites.create({user: req.user._id})
+            console.log("post multiple invoked")
+            Favourites.create({user: req.user._id, dishes: req.body})
             .then((favourite) => {
                 // assumes that if it's the first time user is
                 // creating a favourite list
                 // the items he adds to the list must be unique
                 // OR create a new favourite along with {dishes: req.body}
-                favourite.dishes.push(...req.body);
-                favourite.save()
-                .then((favourite) => {
+                //favourite.dishes.push(...req.body);
+                //favourite.save()
+                //.then((favourite) => {
                     Favourites.findById(favourite._id)
                     .populate('user')
                     .populate('dishes')
@@ -80,7 +81,7 @@ favouriteRouter.route('/')
                         res.setHeader('Content-Type', 'application/json');
                         res.json(favourite);
                     })
-                }, (err) => next(err))
+                //}, (err) => next(err))
             }, (err) => next(err))
         }
     }, (err) => next(err))
@@ -172,6 +173,7 @@ favouriteRouter.route('/:dishId')
             }
         }
         else {
+            console.log("post multiple invoked")
             Favourites.create({user: req.user._id})
             .then((favourite) => {
                 favourite.dishes.push(req.params.dishId);
