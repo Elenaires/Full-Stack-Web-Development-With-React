@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const Comments = require('../models/comments');
 const cors = require('./cors');
 const authenticate = require('../authenticate');
@@ -29,14 +28,17 @@ commentRouter.route('/')
             Comments.findById(comment._id)
             .populate('author')
             .then((comment) => {
+                //console.log('here5');
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(comment);
             })
         }, (err) => next(err))
+      
         .catch((err) => next(err));
     }
     else {
+        console.log('here7');
         err = new Error('Comment not found in request body');
         err.status = 404;
         return next(err);

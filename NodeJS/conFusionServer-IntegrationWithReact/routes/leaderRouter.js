@@ -21,7 +21,7 @@ leaderRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post(authenticate.verifyUser, (req,res,next) => {
+.post(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) => {
     authenticate.verifyAdmin(req,res,next);
     }, (req, res, next) => { 
         Leaders.create(req.body)
@@ -33,13 +33,13 @@ leaderRouter.route('/')
         }, (err) => next(err))
         .catch((err) => next(err));
 })
-.put(authenticate.verifyUser, (req,res,next) => {
+.put(cors.corsWithOptions, authenticate.verifyUser, (req,res,next) => {
     authenticate.verifyAdmin(req,res,next);
     }, (req, res, next) => { 
         res.statusCode = 403;
         res.end('PUT operation not supported on /leaders/');
 })
-.delete(authenticate.verifyUser, (req, res, next) => {
+.delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     authenticate.verifyAdmin(req,res,next);
     }, (req, res, next) => { 
         Leaders.remove({})
